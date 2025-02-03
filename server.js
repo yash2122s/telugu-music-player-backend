@@ -45,8 +45,8 @@ const upload = multer({
 app.use(cors({
     origin: [
         'http://localhost:3000',
-        'https://your-frontend-domain.com', // Add your frontend URL when you deploy it
-        'https://telugu-music-player.onrender.com' // Add your Render URL when you get it
+        'https://your-frontend-domain.com',
+        'https://telugu-music-player.vercel.app' // If you're deploying frontend to Vercel
     ],
     credentials: true
 }));
