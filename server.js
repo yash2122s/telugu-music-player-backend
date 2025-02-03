@@ -41,12 +41,12 @@ const upload = multer({
     }
 });
 
-// CORS configuration - Place this BEFORE any routes
+// CORS configuration
 app.use(cors({
     origin: [
         'http://localhost:3000',
-        'https://your-frontend-domain.com',
-        'https://telugu-music-player.vercel.app' // If you're deploying frontend to Vercel
+        'https://telugu-music-player.vercel.app', // Add your frontend URL
+        'https://your-frontend-domain.com'
     ],
     credentials: true
 }));
@@ -277,20 +277,26 @@ app.get('/api/test', (req, res) => {
     });
 });
 
-// Serve static files - Place this AFTER the API routes
-app.use(express.static(path.join(__dirname, '../Frontend')));
-
-// Handle all other routes by serving index.html
+// Remove or modify the catch-all route
+// Instead of serving Frontend/index.html, send an API message
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/index.html'));
+    res.json({ 
+        message: "Telugu Music Player API", 
+        status: "running",
+        endpoints: {
+            test: "/api/test",
+            songs: "/api/songs",
+            upload: "/api/upload"
+        }
+    });
 });
 
-// Start server
+// Update your server startup
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log('=================================');
     console.log(`🚀 Server is running on port ${PORT}`);
-    console.log(`📝 Test the server: http://localhost:${PORT}/api/test`);
+    console.log(`📝 Test the server: ${process.env.NODE_ENV === 'production' ? 'https://your-app.onrender.com' : 'http://localhost:' + PORT}/api/test`);
     console.log(`📚 MongoDB Status: ${mongoose.connection.readyState === 1 ? '✅ Connected' : '❌ Disconnected'}`);
     console.log('=================================');
 });
