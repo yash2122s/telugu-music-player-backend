@@ -7,10 +7,6 @@
 .env.development
 .env.production
 
-# Firebase config
-firebase-admin.js
-firebase-config.js
-
 # Uploads directory
 /uploads
 
